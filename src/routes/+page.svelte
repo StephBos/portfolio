@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { skills, experience, education } from '$lib/constants.js';
 
-	const sections = ['home', 'skills', 'experience'];
+	const sections = ['home', 'skills', 'experience', 'projects'];
 	let isScrolling = false;
+	let activeTab = 'experience';
 
 	function scrollToSection(index: number) {
 		if (index < 0 || index >= sections.length) return;
@@ -39,7 +41,6 @@
 
 			isScrolling = true;
 			isScrolling = false;
-			
 		});
 	});
 </script>
@@ -48,21 +49,29 @@
 	<div class="home" id="home">
 		<div class="header-top">
 			<div class="social-links">
-				<div id="linkedin" class="social-btn flex-center">
-					<svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-						><path
-							d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"
-						></path></svg
-					><span>in/stephenmbos</span>
-				</div>
+				<a
+					href="https://www.linkedin.com/in/stephenmbos/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<div id="linkedin" class="social-btn flex-center">
+						<svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+							><path
+								d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"
+							></path></svg
+						><span>in/stephenmbos</span>
+					</div>
+				</a>
 
-				<div id="github" class="social-btn flex-center">
-					<svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
-						><path
-							d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-						></path></svg
-					><span>stephbos</span>
-				</div>
+				<a href="https://github.com/StephBos" target="_blank" rel="noopener noreferrer">
+					<div id="github" class="social-btn flex-center">
+						<svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"
+							><path
+								d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+							></path></svg
+						><span>stephbos</span>
+					</div>
+				</a>
 			</div>
 		</div>
 		<div class="words-and-pic">
@@ -96,143 +105,98 @@
 	</div>
 	<div class="skills" id="skills">
 		<h1>Skills & Technologies</h1>
-		<div class="skills-row">
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">JavaScript</span>
-					<p class="skill-desc">Versatile scripting language used for dynamic web development.</p>
-				</div>
+		{#each Array(Math.ceil(skills.length / 7)) as _, groupIndex}
+			<!-- First row of the group (4 skills) -->
+			<div class="skills-row">
+				{#each skills.slice(groupIndex * 7, groupIndex * 7 + 4) as skill}
+					<div class="skill">
+						<div class="skill-content">
+							<span class="skill-title">{skill.skill}</span>
+							<p class="skill-desc">{skill.description}</p>
+						</div>
+					</div>
+				{/each}
 			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">TypeScript</span>
-					<p class="skill-desc">Superset of JS adding static typing for safer, scalable apps.</p>
+			<!-- Second row of the group (3 skills) -->
+			{#if skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7).length > 0}
+				<div class="skills-row">
+					{#each skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7) as skill}
+						<div class="skill">
+							<div class="skill-content">
+								<span class="skill-title">{skill.skill}</span>
+								<p class="skill-desc">{skill.description}</p>
+							</div>
+						</div>
+					{/each}
 				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">React</span>
-					<p class="skill-desc">UI library for building dynamic, component-based web apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Node.js</span>
-					<p class="skill-desc">Runtime enabling fast, scalable server-side JavaScript.</p>
-				</div>
-			</div>
-		</div>
-		<div class="skills-row">
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">PostgreSQL</span>
-					<p class="skill-desc">Versatile scripting language used for dynamic web development.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">MySQL</span>
-					<p class="skill-desc">Superset of JS adding static typing for safer, scalable apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Svelte</span>
-					<p class="skill-desc">UI library for building dynamic, component-based web apps.</p>
-				</div>
-			</div>
-		</div>
-		<div class="skills-row">
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">BASH</span>
-					<p class="skill-desc">Versatile scripting language used for dynamic web development.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Git</span>
-					<p class="skill-desc">Superset of JS adding static typing for safer, scalable apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">GraphQL</span>
-					<p class="skill-desc">UI library for building dynamic, component-based web apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Tailwind</span>
-					<p class="skill-desc">Runtime enabling fast, scalable server-side JavaScript.</p>
-				</div>
-			</div>
-		</div>
-		<div class="skills-row">
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">NextJS</span>
-					<p class="skill-desc">Versatile scripting language used for dynamic web development.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">HTML/CSS</span>
-					<p class="skill-desc">Superset of JS adding static typing for safer, scalable apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Python</span>
-					<p class="skill-desc">UI library for building dynamic, component-based web apps.</p>
-				</div>
-			</div>
-		</div>
-		<div class="skills-row">
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">C++</span>
-					<p class="skill-desc">Versatile scripting language used for dynamic web development.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Java</span>
-					<p class="skill-desc">Superset of JS adding static typing for safer, scalable apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">C#</span>
-					<p class="skill-desc">UI library for building dynamic, component-based web apps.</p>
-				</div>
-			</div>
-
-			<div class="skill">
-				<div class="skill-content">
-					<span class="skill-title">Confluence</span>
-					<p class="skill-desc">Runtime enabling fast, scalable server-side JavaScript.</p>
-				</div>
-			</div>
-		</div>
+			{/if}
+		{/each}
 		<button class="learn-more-btn" on:click={() => scrollToSection(2)}>
-			Continue Exploring
+			Experience
 			<span class="arrow">↓</span>
 		</button>
 	</div>
 	<div class="experience" id="experience">
+		<h1>My Journey</h1>
+		<div class="tabs-container">
+			<div class="tab-buttons">
+				<button
+					class="tab-btn"
+					class:active={activeTab === 'experience'}
+					on:click={() => (activeTab = 'experience')}
+				>
+					Experience
+				</button>
+				<button
+					class="tab-btn"
+					class:active={activeTab === 'education'}
+					on:click={() => (activeTab = 'education')}
+				>
+					Education
+				</button>
+			</div>
+			<div class="tab-content">
+				{#if activeTab === 'experience'}
+					<div class="card-wrapper">
+						{#each experience as exp}
+							<div class="card">
+								<div class="card-details">
+									<p class="text-title">{exp.title}</p>
+									<p class="text-body">{exp.company}</p>
+									<p class="date">{exp.time}</p>
+									<p class="text-body">{exp.location}</p>
+									<p class="text-body">{exp.info}</p>
+								</div>
+								<button class="card-button">More info</button>
+							</div>
+						{/each}
+					</div>
+				{:else}
+					<div class="card-wrapper">
+						{#each education as edu}
+							<div class="card">
+								<div class="card-details">
+									<p class="text-title">{edu.section}</p>
+									{#each edu.major as m, i}
+										<div class="entry">
+											<p class="text-body">{m}</p>
+											<p class="text-body">{edu.school ? edu.school[i] : edu.schools[i]}</p>
+											<p class="text-date">{edu.graduated[i]}</p>
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		</div>
+		<button class="learn-more-btn" on:click={() => scrollToSection(3)}>
+			Experience
+			<span class="arrow">↓</span>
+		</button>
+	</div>
+	<div class="projects" id="projects">
 
 	</div>
 </main>
@@ -375,10 +339,10 @@
 	}
 
 	.header-top {
-		position: absolute;
+		position: fixed;
 		top: 20px;
 		left: 20px;
-		z-index: 3;
+		z-index: 1000;
 	}
 
 	.social-links,
@@ -529,6 +493,197 @@
 
 	.experience {
 		background-color: #222831;
+		text-align: center;
+		padding: 3rem 1.5rem 2rem;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 1.5rem;
+	}
+
+	.tabs-container {
+		width: 80%;
+		max-width: 1200px;
+		margin: 0 auto;
+		background: #393e46;
+		border-radius: 20px;
+		padding: 2rem;
+		border: 2px solid #eeeeee;
+	}
+
+	.tab-buttons {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+		margin-bottom: 2rem;
+		border-bottom: 2px solid #eeeeee;
+		padding-bottom: 1rem;
+	}
+
+	.tab-btn {
+		background: none;
+		border: none;
+		color: #eeeeee;
+		font-size: 1.2rem;
+		font-weight: 600;
+		padding: 0.5rem 2rem;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		position: relative;
+	}
+
+	.tab-btn::after {
+		content: '';
+		position: absolute;
+		bottom: -1rem;
+		left: 0;
+		width: 100%;
+		height: 3px;
+		background-color: #00adb5;
+		transform: scaleX(0);
+		transition: transform 0.3s ease;
+	}
+
+	.tab-btn.active {
+		color: #00adb5;
+	}
+
+	.tab-btn.active::after {
+		transform: scaleX(1);
+	}
+
+	.tab-content {
+		min-height: 400px;
+	}
+
+	.card-wrapper {
+		display: flex;
+		gap: 2rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.card {
+		width: 300px;
+		min-height: 320px;
+		border-radius: 16px;
+		background: linear-gradient(180deg, #2b2f33 0%, #222831 100%);
+		position: relative;
+		padding: 1.6rem 1.6rem 2.8rem;
+		border: 1px solid rgba(238, 238, 238, 0.08);
+		box-shadow: 0 6px 18px rgba(8, 12, 16, 0.6);
+		transition:
+			transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1),
+			box-shadow 260ms ease,
+			border-color 260ms ease;
+		overflow: visible;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	/* subtle colored accent on the top edge */
+	.card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 6px;
+		width: 100%;
+		border-top-left-radius: 16px;
+		border-top-right-radius: 16px;
+		background: linear-gradient(90deg, #00adb5 0%, #7be5d8 100%);
+		opacity: 0.95;
+	}
+
+	.card-details {
+		color: #eeeeee;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-top: 0.6rem; /* give room for the accent */
+	}
+
+	.card-list {
+		text-align: left;
+		margin: 0.6rem 0 0;
+		padding-left: 1.25rem;
+		color: #e9ecef;
+	}
+
+	.card-list li {
+		margin-bottom: 0.45rem;
+		line-height: 1.35;
+	}
+
+	.card-button {
+		/* kept centered but pulled inside the card */
+		transform: translate(-50%, 0%);
+		width: 56%;
+		border-radius: 999px;
+		border: none;
+		background-color: #00adb5;
+		color: #0b0f10;
+		font-size: 0.95rem;
+		padding: 0.55rem 1rem;
+		position: absolute;
+		left: 50%;
+		bottom: 14px;
+		opacity: 0;
+		transition:
+			opacity 220ms ease,
+			transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1),
+			box-shadow 220ms ease;
+		cursor: pointer;
+		box-shadow: 0 6px 18px rgba(0, 173, 181, 0.12);
+	}
+
+	.text-body {
+		color: #7fd5cf;
+		font-size: 1.02rem;
+		font-weight: 600;
+	}
+
+	.date {
+		color: #dfe7e9;
+		font-size: 0.9rem;
+		opacity: 0.9;
+	}
+
+	.text-title {
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 0.2px;
+	}
+
+	.card:hover {
+		transform: translateY(-8px) scale(1.01);
+		border-color: rgba(0, 173, 181, 0.5);
+		box-shadow: 0 20px 40px rgba(7, 12, 14, 0.6);
+	}
+
+	.card:hover .card-button {
+		transform: translate(-50%, 0%);
+		opacity: 1;
+		box-shadow: 0 14px 28px rgba(0, 173, 181, 0.14);
+	}
+
+	/* responsive: slightly narrower cards on small screens */
+	@media (max-width: 720px) {
+		.card {
+			width: calc(100% - 2rem);
+			min-height: 220px;
+		}
+		.card-button {
+			width: 70%;
+		}
+	}
+
+	.projects {
+		background-color: #393e46;
 		text-align: center;
 		padding: 3rem 1.5rem 2rem;
 		min-height: 100vh;
