@@ -140,3 +140,25 @@ export const education = [
 		graduated: [2024, 2022, 2021]
 	}
 ];
+
+
+export const projects = [
+	{
+		name: 'Portfolio Website',
+		description: 'A personal portfolio website built with Svelte, CSS, and Typescript to showcase my skills, experience, and projects.',
+		technologies: ['Svelte', 'TypeScript', 'HTML', 'CSS'],
+		link: ['https://github.com/StephBos/portfolio']
+	},
+	{
+		name: 'Your TTRPG Web Application',
+		description: 'A work in progress web application to help tabletop RPG players and game masters manage their ruleset, characters, and campaigns.',
+		technologies: ['React', 'TypeScript', 'Node', 'Express', 'PostgreSQL'],
+		link: ['https://github.com/StephBos/your-ttrpg', 'https://github.com/StephBos/your-ttrpg-backend']
+	},
+	{
+		name: 'Sandstone Data Management Tool',
+		description: 'Built a full-stack platform for managing, processing, and serving data across multiple consumer sites, including HighSpeedInternet.com, Reviews.org, Move.org, and CableTV.com.',
+		technologies: ['React', 'TypeScript', 'Node', 'Express', 'GraphQL', 'PostgreSQL', 'Docker'],
+		link: []
+	}
+]

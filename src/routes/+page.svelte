@@ -1,10 +1,19 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { skills, experience, education } from '$lib/constants.js';
+	import { skills, experience, education, projects } from '$lib/constants';
+
+	type Project = {
+		name: string;
+		description: string;
+		technologies: string[];
+		link: string[];
+	};
 
 	const sections = ['home', 'skills', 'experience', 'projects'];
 	let isScrolling = false;
 	let activeTab = 'experience';
+	let selectedExperience: (typeof experience)[0] | null = null;
+	let showModal = false;
 
 	function scrollToSection(index: number) {
 		if (index < 0 || index >= sections.length) return;
@@ -73,12 +82,13 @@
 					</div>
 				</a>
 			</div>
+			<button class="contact-me"> Contact Me </button>
 		</div>
 		<div class="words-and-pic">
 			<img src="/headshot.JPEG" alt="Headshot" class="headshot" />
 			<div class="introduction">
 				<div class="intro-text">
-					<h1 class="intro-title">Hi I'm Stephen Bos</h1>
+					<h1 class="intro-title">Hi, I'm Stephen Bos</h1>
 					<h2>
 						I am a Skilled Software Engineer who leads the design, development, and implementation
 						of innovative software features and enhancements.
@@ -165,12 +175,114 @@
 									<p class="text-body">{exp.company}</p>
 									<p class="date">{exp.time}</p>
 									<p class="text-body">{exp.location}</p>
-									<p class="text-body">{exp.info}</p>
 								</div>
-								<button class="card-button">More info</button>
+								<button
+									class="card-button"
+									on:click={() => {
+										selectedExperience = exp;
+										showModal = true;
+									}}
+								>
+									More info
+								</button>
 							</div>
 						{/each}
 					</div>
+
+					{#if showModal && selectedExperience}
+						<div class="modal-overlay" on:click={() => (showModal = false)}>
+							<div class="modal-content" on:click|stopPropagation>
+								<button class="modal-close" on:click={() => (showModal = false)}>
+									<svg
+										width="20"
+										height="20"
+										viewBox="0 0 20 20"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M15 5L5 15M5 5L15 15"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</button>
+								<h2>{selectedExperience.title}</h2>
+								<div class="modal-subtitle">
+									<span class="company">
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M3 21H21M3 18H21M6 18V10M10 18V10M14 18V10M18 18V10M21 10H3L5 4H19L21 10Z"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+										{selectedExperience.company}
+									</span>
+									<span class="separator">•</span>
+									<span class="location">
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+											<path
+												d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+										{selectedExperience.location}
+									</span>
+									<span class="separator">•</span>
+									<span class="time">
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+										{selectedExperience.time}
+									</span>
+								</div>
+								<div class="modal-description">
+									{#each selectedExperience.descriptions as desc}
+										<p>{desc}</p>
+									{/each}
+								</div>
+							</div>
+						</div>
+					{/if}
 				{:else}
 					<div class="card-wrapper">
 						{#each education as edu}
@@ -192,12 +304,51 @@
 			</div>
 		</div>
 		<button class="learn-more-btn" on:click={() => scrollToSection(3)}>
-			Experience
+			Projects
 			<span class="arrow">↓</span>
 		</button>
 	</div>
 	<div class="projects" id="projects">
-
+		<h1>My Projects</h1>
+		<div class="projects-container">
+			{#each projects as project}
+				<div class="project-card">
+					<h2>{project.name}</h2>
+					<p class="project-description">{project.description}</p>
+					<div class="tech-stack">
+						{#each project.technologies as tech}
+							<span class="tech-tag">{tech}</span>
+						{/each}
+					</div>
+					{#if project.link.length > 0}
+						<div class="project-links">
+							{#each project.link as url}
+								<a 
+									href={url} 
+									target="_blank" 
+									rel="noopener noreferrer" 
+									class="project-link"
+								>
+									{#if url.includes('github.com')}
+										<svg viewBox="0 0 24 24" width="16" height="16">
+											<path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12"/>
+										</svg>
+										View Code
+									{:else}
+										<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+											<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+											<polyline points="15 3 21 3 21 9"/>
+											<line x1="10" y1="14" x2="21" y2="3"/>
+										</svg>
+										Live Demo
+									{/if}
+								</a>
+							{/each}
+						</div>
+					{/if}
+				</div>
+			{/each}
+		</div>
 	</div>
 </main>
 
@@ -342,6 +493,10 @@
 		position: fixed;
 		top: 20px;
 		left: 20px;
+		right: 20px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		z-index: 1000;
 	}
 
@@ -395,6 +550,54 @@
 
 	#github {
 		fill: hsl(0, 0%, 0%);
+	}
+
+	.contact-me {
+		width: 10em;
+		height: 3.5em;
+		border: 3px ridge #00ADB5;
+		outline: none;
+		background-color: transparent;
+		color: white;
+		transition: 1s;
+		border-radius: 0.3em;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		margin-right: 20px;
+	}
+
+	.contact-me::after {
+		content: '';
+		position: absolute;
+		top: -10px;
+		left: 3%;
+		width: 95%;
+		height: 40%;
+		background-color: transparent;
+		transition: 0.5s;
+		transform-origin: center;
+	}
+
+	.contact-me::before {
+		content: '';
+		transform-origin: center;
+		position: absolute;
+		top: 80%;
+		left: 3%;
+		width: 95%;
+		height: 40%;
+		background-color: transparent;
+		transition: 0.5s;
+	}
+
+	.contact-me:hover::before,
+	button:hover::after {
+		transform: scale(0);
+	}
+
+	.contact-me:hover {
+		box-shadow: inset 0px 0px 25px #1479ea;
 	}
 
 	.skills {
@@ -566,22 +769,21 @@
 	}
 
 	.card {
-		width: 300px;
-		min-height: 320px;
+		width: 260px;
+		height: 240px;
 		border-radius: 16px;
 		background: linear-gradient(180deg, #2b2f33 0%, #222831 100%);
 		position: relative;
-		padding: 1.6rem 1.6rem 2.8rem;
+		padding: 1.2rem 1.2rem 2.4rem;
 		border: 1px solid rgba(238, 238, 238, 0.08);
 		box-shadow: 0 6px 18px rgba(8, 12, 16, 0.6);
 		transition:
 			transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1),
 			box-shadow 260ms ease,
 			border-color 260ms ease;
-		overflow: visible;
+		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
 	}
 
 	/* subtle colored accent on the top edge */
@@ -590,7 +792,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		height: 6px;
+		height: 4px;
 		width: 100%;
 		border-top-left-radius: 16px;
 		border-top-right-radius: 16px;
@@ -603,8 +805,40 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
-		padding-top: 0.6rem; /* give room for the accent */
+		gap: 0.4rem;
+		padding-top: 0.4rem;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		scrollbar-color: #00adb5 #222831;
+	}
+
+	/* Webkit scrollbar styling */
+	.card-details::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	.card-details::-webkit-scrollbar-track {
+		background: #222831;
+		border-radius: 4px;
+		margin: 4px 0;
+	}
+
+	.card-details::-webkit-scrollbar-thumb {
+		background: #00adb5;
+		border-radius: 4px;
+		border: 2px solid #222831;
+		transition: all 0.2s ease;
+	}
+
+	.card-details::-webkit-scrollbar-thumb:hover {
+		background: #00c5cf;
+		border-width: 1px;
+	}
+
+	.card-details::-webkit-scrollbar-thumb:active {
+		background: #00d8e3;
+		border-width: 1px;
 	}
 
 	.card-list {
@@ -643,32 +877,33 @@
 
 	.text-body {
 		color: #7fd5cf;
-		font-size: 1.02rem;
+		font-size: 0.95rem;
 		font-weight: 600;
 	}
 
 	.date {
 		color: #dfe7e9;
-		font-size: 0.9rem;
+		font-size: 0.85rem;
 		opacity: 0.9;
 	}
 
 	.text-title {
-		font-size: 1.25rem;
+		font-size: 1.1rem;
 		font-weight: 700;
 		letter-spacing: 0.2px;
+		margin-bottom: 0.2rem;
 	}
 
 	.card:hover {
-		transform: translateY(-8px) scale(1.01);
+		transform: translateY(-4px);
 		border-color: rgba(0, 173, 181, 0.5);
-		box-shadow: 0 20px 40px rgba(7, 12, 14, 0.6);
+		box-shadow: 0 12px 24px rgba(7, 12, 14, 0.6);
 	}
 
 	.card:hover .card-button {
 		transform: translate(-50%, 0%);
 		opacity: 1;
-		box-shadow: 0 14px 28px rgba(0, 173, 181, 0.14);
+		box-shadow: 0 8px 16px rgba(0, 173, 181, 0.14);
 	}
 
 	/* responsive: slightly narrower cards on small screens */
@@ -692,5 +927,283 @@
 		align-items: center;
 		justify-content: flex-start;
 		gap: 1.5rem;
+	}
+
+	.projects-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		width: 100%;
+		max-width: 1200px;
+		padding: 2rem;
+	}
+
+	.project-card {
+		background: linear-gradient(180deg, #2b2f33 0%, #222831 100%);
+		border-radius: 16px;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		border: 1px solid rgba(238, 238, 238, 0.08);
+		box-shadow: 0 6px 18px rgba(8, 12, 16, 0.6);
+		transition: all 0.3s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.project-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 4px;
+		width: 100%;
+		background: linear-gradient(90deg, #00adb5 0%, #7be5d8 100%);
+		opacity: 0.95;
+	}
+
+	.project-card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(0, 173, 181, 0.5);
+		box-shadow: 0 12px 24px rgba(7, 12, 14, 0.6);
+	}
+
+	.project-card h2 {
+		font-size: 1.5rem;
+		color: #00adb5;
+		margin: 0;
+	}
+
+	.project-description {
+		color: #eeeeee;
+		font-size: 1rem;
+		line-height: 1.6;
+		flex-grow: 1;
+	}
+
+	.tech-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: auto;
+	}
+
+	.tech-tag {
+		background: rgba(0, 173, 181, 0.15);
+		color: #00adb5;
+		padding: 0.25rem 0.75rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+		font-weight: 600;
+		border: 1px solid rgba(0, 173, 181, 0.3);
+	}
+
+	.project-links {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+		justify-content: flex-start;
+	}
+
+	.project-link {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: #00adb5;
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 600;
+		padding: 0.5rem 1rem;
+		border-radius: 8px;
+		background: rgba(0, 173, 181, 0.1);
+		border: 1px solid rgba(0, 173, 181, 0.3);
+		transition: all 0.2s ease;
+	}
+
+	.project-link:hover {
+		background: rgba(0, 173, 181, 0.2);
+		transform: translateY(-2px);
+	}
+
+	.project-link svg {
+		transition: transform 0.2s ease;
+	}
+
+	.project-link:hover svg {
+		transform: translate(2px, -2px);
+	}
+
+	@keyframes modalFadeIn {
+		from {
+			opacity: 0;
+			transform: scale(0.95);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0, 0, 0, 0.85);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1000;
+		padding: 1.5rem;
+		backdrop-filter: blur(8px);
+		animation: modalFadeIn 0.3s ease-out forwards;
+	}
+
+	.modal-content {
+		background: linear-gradient(165deg, #2b2f33 0%, #222831 100%);
+		padding: 2.5rem;
+		border-radius: 24px;
+		width: 100%;
+		max-width: 680px;
+		max-height: 85vh;
+		overflow-y: auto;
+		position: relative;
+		border: 1px solid rgba(238, 238, 238, 0.12);
+		box-shadow:
+			0 24px 48px -12px rgba(0, 0, 0, 0.9),
+			0 0 80px rgba(0, 173, 181, 0.15);
+	}
+
+	.modal-content::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: linear-gradient(90deg, #00adb5, #7be5d8);
+		border-top-left-radius: 24px;
+		border-top-right-radius: 24px;
+		opacity: 0.8;
+	}
+
+	.modal-content h2 {
+		background: linear-gradient(90deg, #00adb5, #7be5d8);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		font-size: 1.8rem;
+		margin-bottom: 0.75rem;
+		padding-right: 2rem;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+
+	.modal-subtitle {
+		color: #7fd5cf;
+		font-size: 1.05rem;
+		margin-bottom: 2rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		align-items: center;
+		opacity: 0.9;
+	}
+
+	.modal-subtitle .separator {
+		color: #4a4f57;
+		font-weight: 700;
+	}
+
+	.modal-description {
+		position: relative;
+		padding: 1.5rem;
+		background: rgba(0, 0, 0, 0.2);
+		border-radius: 16px;
+		border: 1px solid rgba(238, 238, 238, 0.08);
+	}
+
+	.modal-description p {
+		color: #eeeeee;
+		line-height: 1.7;
+		margin-bottom: 1.2rem;
+		font-size: 1rem;
+		text-align: left;
+		letter-spacing: 0.01em;
+	}
+
+	.modal-description p:last-child {
+		margin-bottom: 0;
+	}
+
+	.modal-close {
+		position: absolute;
+		top: 1.25rem;
+		right: 1.25rem;
+		background: rgba(0, 173, 181, 0.1);
+		border: 1px solid rgba(0, 173, 181, 0.2);
+		color: #7fd5cf;
+		font-size: 1.5rem;
+		cursor: pointer;
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 12px;
+		transition: all 0.2s ease;
+	}
+
+	.modal-close:hover {
+		background-color: rgba(0, 173, 181, 0.2);
+		border-color: rgba(0, 173, 181, 0.3);
+		color: #00adb5;
+		transform: scale(1.05);
+	}
+
+	/* Webkit scrollbar styling for modal */
+	.modal-content::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	.modal-content::-webkit-scrollbar-track {
+		background: rgba(34, 40, 49, 0.6);
+		border-radius: 4px;
+	}
+
+	.modal-content::-webkit-scrollbar-thumb {
+		background: rgba(0, 173, 181, 0.5);
+		border-radius: 4px;
+		border: 2px solid rgba(34, 40, 49, 0.6);
+	}
+
+	.modal-content::-webkit-scrollbar-thumb:hover {
+		background: rgba(0, 173, 181, 0.7);
+	}
+
+	/* Firefox scrollbar styling for modal */
+	.modal-content {
+		scrollbar-width: thin;
+		scrollbar-color: rgba(0, 173, 181, 0.5) rgba(34, 40, 49, 0.6);
+	}
+
+	@media (max-width: 640px) {
+		.modal-content {
+			padding: 2rem 1.5rem;
+		}
+
+		.modal-content h2 {
+			font-size: 1.5rem;
+		}
+
+		.modal-subtitle {
+			font-size: 0.95rem;
+		}
+
+		.modal-description {
+			padding: 1.25rem;
+		}
 	}
 </style>
