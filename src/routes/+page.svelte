@@ -89,7 +89,7 @@
 			<img src="/headshot.JPEG" alt="Headshot" class="headshot" />
 			<div class="introduction">
 				<div class="intro-text">
-					<h1 class="intro-title">Hi, I'm Stephen Bos</h1>
+					<h1 class="intro-title">Hi! I'm Stephen Bos</h1>
 					<h2>
 						I am a Skilled Software Engineer who leads the design, development, and implementation
 						of innovative software features and enhancements.
