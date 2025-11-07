@@ -20,10 +20,6 @@ export const skills = [
 		description: 'Learned in school and used occasionally since.'
 	},
 	{
-		skill: 'Svelte',
-		description: 'Learned while building this very site.'
-	},
-	{
 		skill: 'JavaScript',
 		description: 'Still love the simplicity and flexibility of plain JavaScript.'
 	},
@@ -70,6 +66,10 @@ export const skills = [
 	{
 		skill: 'Confluence',
 		description: 'Experienced in writing and organizing technical documentation.'
+	},
+	{
+		skill: 'Svelte',
+		description: 'Learned while building this very site.'
 	}
 ];
 

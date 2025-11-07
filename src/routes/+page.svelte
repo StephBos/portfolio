@@ -18,6 +18,9 @@
 
 	onMount(() => {
 		window.addEventListener('wheel', (event: WheelEvent) => {
+			console.log('Window width:', window.innerWidth);
+			if (window.innerWidth <= 720) return;
+
 			if (isScrolling) return;
 
 			const delta = event.deltaY;
@@ -75,7 +78,12 @@
 					</div>
 				</a>
 			</div>
-			<button class="contact-me"> Contact Me </button>
+			<a
+				class="contact-me"
+				href="mailto:stephen.bos1029@gmail.com?subject=Contact%20Request&body=Please%20enter%20your%20first%20name,%20last%20name,%20and%20email."
+				target="_blank"
+				rel="noopener noreferrer">Contact Me</a
+			>
 		</div>
 		<div class="words-and-pic">
 			<img src="/headshot.JPEG" alt="Headshot" class="headshot" />
@@ -316,17 +324,14 @@
 					{#if project.link.length > 0}
 						<div class="project-links">
 							{#each project.link as url}
-								<a 
-									href={url} 
-									target="_blank" 
-									rel="noopener noreferrer" 
-									class="project-link"
-								>
-									
-										<svg viewBox="0 0 24 24" width="16" height="16">
-											<path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12"/>
-										</svg>
-										View Code
+								<a href={url} target="_blank" rel="noopener noreferrer" class="project-link">
+									<svg viewBox="0 0 24 24" width="16" height="16">
+										<path
+											fill="currentColor"
+											d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12"
+										/>
+									</svg>
+									View Code
 								</a>
 							{/each}
 						</div>
@@ -334,6 +339,10 @@
 				</div>
 			{/each}
 		</div>
+		<button class="learn-more-btn" on:click={() => scrollToSection(0)}>
+			Back to top
+			<span class="arrow">↑</span>
+		</button>
 	</div>
 </main>
 
@@ -540,7 +549,7 @@
 	.contact-me {
 		width: 10em;
 		height: 3.5em;
-		border: 3px ridge #00ADB5;
+		border: 3px ridge #00adb5;
 		outline: none;
 		background-color: transparent;
 		color: white;
@@ -550,6 +559,11 @@
 		font-weight: bold;
 		cursor: pointer;
 		margin-right: 20px;
+		display: inline-block;
+		text-align: center;
+		line-height: 3.5em;
+		text-decoration: none;
+		position: relative;
 	}
 
 	.contact-me::after {
@@ -577,7 +591,7 @@
 	}
 
 	.contact-me:hover::before,
-	button:hover::after {
+	.contact-me:hover::after {
 		transform: scale(0);
 	}
 
@@ -1191,4 +1205,321 @@
 			padding: 1.25rem;
 		}
 	}
+
+	.contact-modal {
+		max-width: 400px;
+		padding: 2rem 1.5rem;
+		border-radius: 18px;
+		background: linear-gradient(165deg, #2b2f33 0%, #222831 100%);
+		box-shadow:
+			0 24px 48px -12px rgba(0, 0, 0, 0.9),
+			0 0 80px rgba(0, 173, 181, 0.15);
+		border: 1px solid rgba(238, 238, 238, 0.12);
+		position: relative;
+	}
+	.contact-modal h2 {
+		color: #00adb5;
+		font-size: 1.4rem;
+		margin-bottom: 1.2rem;
+		text-align: center;
+	}
+	.contact-form {
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+	}
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+	.form-group label {
+		color: #eeeeee;
+		font-size: 1rem;
+		font-weight: 600;
+	}
+	.form-group input {
+		padding: 0.5rem 0.8rem;
+		border-radius: 8px;
+		border: 1px solid #00adb5;
+		background: #222831;
+		color: #eeeeee;
+		font-size: 1rem;
+		outline: none;
+		transition: border-color 0.2s;
+	}
+	.form-group input:focus {
+		border-color: #7be5d8;
+	}
+	.form-error {
+		color: #ff4c4c;
+		font-size: 0.95rem;
+		text-align: center;
+		margin-bottom: 0.5rem;
+	}
+	.contact-submit {
+		background: linear-gradient(90deg, #00adb5 0%, #7be5d8 100%);
+		color: #222831;
+		font-weight: 700;
+		padding: 0.7rem 1.5rem;
+		border-radius: 12px;
+		border: none;
+		cursor: pointer;
+		font-size: 1.1rem;
+		box-shadow: 0 4px 12px rgba(0, 173, 181, 0.2);
+		transition: all 0.2s;
+		margin-top: 0.5rem;
+	}
+	.contact-submit:hover {
+		background: linear-gradient(90deg, #7be5d8 0%, #00adb5 100%);
+		color: #222831;
+		transform: translateY(-2px);
+	}
+
+/* Small-screen placement adjustments for Skills (stacking only) */
+@media (max-width: 720px) {
+	.skills-row {
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	/* keep visual appearance, only adjust placement/width */
+	.skill {
+		width: 90%;
+		max-width: 360px;
+	}
+
+	/* Make hero stack and headshot larger when the browser is narrowed below 720px
+	   (useful when testing by resizing desktop browser rather than emulation) */
+	.words-and-pic {
+		flex-direction: column !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 100% !important;
+		text-align: center !important;
+	}
+
+	.headshot {
+		display: block !important;
+		width: clamp(180px, 30vw, 320px) !important;
+		height: auto !important;
+		margin: 0.25rem auto 0.5rem auto !important;
+		border-radius: 50% !important;
+	}
+
+	.introduction,
+	.intro-text {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		text-align: center !important;
+	}
+
+	/* slightly reduce contact button so it doesn't overlap when narrowing the desktop window */
+	.contact-me { min-width: 6rem; font-size: 0.95rem; }
+}
+/* Small-screen improvements (phones) */
+@media (max-width: 480px) {
+	/* Header and social */
+	.header-top {
+		top: 12px;
+		left: 12px;
+		right: 12px;
+		padding: 0 8px;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.social-links {
+		gap: 8px;
+	}
+
+	.social-btn {
+		height: 40px;
+		width: 40px;
+		margin: 4px;
+		border-radius: 8px;
+	}
+
+	.social-btn span {
+		display: none; /* hide text labels to save space */
+	}
+
+	/* Contact button */
+	.contact-me {
+		width: 8rem;
+		height: 2.8rem;
+		line-height: 2.8rem;
+		font-size: 0.95rem;
+		margin-right: 0;
+		padding: 0 0.6rem;
+	}
+
+	/* Intro section stacks on phones */
+	.words-and-pic {
+		flex-direction: column !important;
+		gap: 0.75rem;
+		padding: 0.5rem;
+		align-items: center !important;
+		justify-content: center !important;
+		text-align: center !important;
+	}
+
+	/* ensure the fixed header doesn't overlap the home content */
+	.home {
+		/* increase spacing so the fixed header and its button don't overlap the hero */
+		padding-top: 140px;
+	}
+
+	.headshot {
+		/* make the headshot larger and responsive on phones and force it above the text */
+		display: block !important;
+		width: clamp(200px, 44vw, 320px) !important;
+		height: auto;
+		border-radius: 50%;
+		flex-shrink: 0;
+		margin: 0.25rem auto 0.5rem auto !important;
+		order: 0;
+	}
+
+	.introduction {
+		/* switch to block layout so text stacks under the picture cleanly */
+		display: block !important;
+		width: 100% !important;
+		max-width: 100% !important;
+		padding: 0.75rem 1rem 1rem 1rem !important;
+		order: 1 !important;
+		text-align: center !important;
+	}
+
+	/* ensure the hero area fills the available width and stacks cleanly */
+	.words-and-pic {
+		width: 100%;
+		align-items: center;
+		flex-direction: column !important;
+	}
+
+	/* shrink the contact button on phones so it doesn't overlap content */
+	.contact-me {
+		min-width: 5.2rem;
+		width: auto;
+		height: 2.6rem;
+		font-size: 0.88rem;
+		padding: 0 0.5rem;
+		margin-left: 0.5rem;
+		display: none !important; /* hide on very small screens to avoid overlapping the heading */
+	}
+
+	/* reduce extra left padding introduced by desktop rules */
+	.intro-text {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		width: 100% !important;
+		box-sizing: border-box !important;
+	}
+
+	.intro-title {
+		font-size: 1.8rem;
+		line-height: 1.05;
+	}
+
+	.band {
+		height: 56px;
+		margin: 1rem 0;
+	}
+
+	.band-text span {
+		font-size: 1.6rem;
+	}
+
+	.learn-more-btn {
+		margin-top: 2rem;
+		padding: 0.6rem 1rem;
+		font-size: 1rem;
+	}
+
+	/* Tabs and cards */
+	.tabs-container {
+		padding: 1rem;
+		width: 95%;
+	}
+
+	.card-wrapper {
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.card,
+	.project-card {
+		width: calc(100% - 2rem);
+		max-width: none;
+		height: auto;
+		padding-bottom: 3.5rem;
+	}
+
+	.card-details {
+		max-height: 220px;
+	}
+
+	.card-button {
+		bottom: 12px;
+		width: 70%;
+	}
+
+	.projects-container {
+		grid-template-columns: 1fr;
+		padding: 1rem;
+	}
+
+	/* Make interactive controls comfortably large for touch */
+	.card-button,
+	.contact-me,
+	.project-link {
+		min-height: 44px;
+		padding: 0.6rem 1rem;
+	}
+
+	/* Reduce some spacing on very small screens */
+	@media (max-height: 600px) {
+		.header-top { top: 8px; }
+		.learn-more-btn { margin-top: 1rem; }
+	}
+}
+
+/* Extra-strong overrides for very narrow phones where the headshot should be large */
+@media (max-width: 420px) {
+	.words-and-pic {
+		flex-direction: column !important;
+		align-items: center !important;
+		justify-content: center !important;
+		width: 100% !important;
+	}
+
+	.headshot {
+		/* make the headshot very prominent on small devices */
+		display: block !important;
+		width: min(84vw, 360px) !important;
+		height: auto !important;
+		max-width: none !important;
+		border-radius: 50% !important;
+		margin: 0.25rem auto 0.75rem auto !important;
+		order: 0 !important;
+	}
+
+	.introduction,
+	.intro-text {
+		width: 100% !important;
+		max-width: 100% !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		text-align: center !important;
+		box-sizing: border-box !important;
+	}
+
+	/* keep the fixed contact control hidden on very narrow screens */
+	.contact-me { display: none !important; }
+}
+
 </style>
