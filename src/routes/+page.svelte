@@ -16,7 +16,17 @@
 		}
 	}
 
+	let width = 0;
+
 	onMount(() => {
+		width = window.innerWidth;
+
+		const handleResize = () => {
+			width = window.innerWidth;
+		};
+
+		window.addEventListener('resize', handleResize);
+
 		window.addEventListener('wheel', (event: WheelEvent) => {
 			console.log('Window width:', window.innerWidth);
 			if (window.innerWidth <= 720) return;
@@ -46,6 +56,10 @@
 
 			isScrolling = true;
 			isScrolling = false;
+
+			return () => {
+				window.removeEventListener('resize', handleResize);
+			};
 		});
 	});
 </script>
@@ -116,22 +130,11 @@
 	</div>
 	<div class="skills" id="skills">
 		<h1>Skills & Technologies</h1>
-		{#each Array(Math.ceil(skills.length / 7)) as _, groupIndex}
-			<!-- First row of the group (4 skills) -->
-			<div class="skills-row">
-				{#each skills.slice(groupIndex * 7, groupIndex * 7 + 4) as skill}
-					<div class="skill">
-						<div class="skill-content">
-							<span class="skill-title">{skill.skill}</span>
-							<p class="skill-desc">{skill.description}</p>
-						</div>
-					</div>
-				{/each}
-			</div>
-			<!-- Second row of the group (3 skills) -->
-			{#if skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7).length > 0}
+		{#if width > 720}
+			{#each Array(Math.ceil(skills.length / 7)) as _, groupIndex}
+				<!-- First row of the group (4 skills) -->
 				<div class="skills-row">
-					{#each skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7) as skill}
+					{#each skills.slice(groupIndex * 7, groupIndex * 7 + 4) as skill}
 						<div class="skill">
 							<div class="skill-content">
 								<span class="skill-title">{skill.skill}</span>
@@ -140,8 +143,30 @@
 						</div>
 					{/each}
 				</div>
-			{/if}
-		{/each}
+				<!-- Second row of the group (3 skills) -->
+				{#if skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7).length > 0}
+					<div class="skills-row">
+						{#each skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7) as skill}
+							<div class="skill">
+								<div class="skill-content">
+									<span class="skill-title">{skill.skill}</span>
+									<p class="skill-desc">{skill.description}</p>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			{/each}
+		{:else}
+			{#each skills as skill}
+				<div class="skill" style="width: 80%; margin-bottom: 1rem;">
+					<div class="skill-content">
+						<span class="skill-title">{skill.skill}</span>
+						<p class="skill-desc">{skill.description}</p>
+					</div>
+				</div>
+			{/each}
+		{/if}
 		<button class="learn-more-btn" on:click={() => scrollToSection(2)}>
 			Experience
 			<span class="arrow">↓</span>
@@ -1542,7 +1567,7 @@
 			box-sizing: border-box !important;
 		}
 
-		.experience{
+		.experience {
 			align-items: center;
 		}
 
@@ -1551,5 +1576,4 @@
 			display: none !important;
 		}
 	}
-
 </style>

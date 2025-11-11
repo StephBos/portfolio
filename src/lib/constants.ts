@@ -16,24 +16,27 @@ export const skills = [
 		description: 'Experienced in writing queries, functions, and stored procedures.'
 	},
 	{
-		skill: 'MySQL',
-		description: 'Learned in school and used occasionally since.'
-	},
-	{
 		skill: 'JavaScript',
 		description: 'Still love the simplicity and flexibility of plain JavaScript.'
 	},
 	{
-		skill: 'BASH',
-		description: 'Comfortable writing and running scripts in Bash.'
+		skill: 'GraphQL',
+		description: 'Built several GraphQL APIs and routes.'
+	},{
+		skill: 'HTML/CSS',
+		description: 'Been creating websites with HTML and CSS since middle school.'
 	},
 	{
 		skill: 'Git',
 		description: 'Experienced with Git and GitHub for version control and collaboration.'
 	},
 	{
-		skill: 'GraphQL',
-		description: 'Built several GraphQL APIs and routes.'
+		skill: 'MySQL',
+		description: 'Learned in school and used occasionally since.'
+	},
+	{
+		skill: 'BASH',
+		description: 'Comfortable writing and running scripts in Bash.'
 	},
 	{
 		skill: 'Tailwind',
@@ -42,10 +45,6 @@ export const skills = [
 	{
 		skill: 'NextJS',
 		description: 'Makes building modern web apps incredibly smooth.'
-	},
-	{
-		skill: 'HTML/CSS',
-		description: 'Been creating websites with HTML and CSS since middle school.'
 	},
 	{
 		skill: 'Python',
