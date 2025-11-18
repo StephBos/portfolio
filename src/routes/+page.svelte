@@ -130,43 +130,16 @@
 	</div>
 	<div class="skills" id="skills">
 		<h1>Skills & Technologies</h1>
-		{#if width > 720}
-			{#each Array(Math.ceil(skills.length / 7)) as _, groupIndex}
-				<!-- First row of the group (4 skills) -->
-				<div class="skills-row">
-					{#each skills.slice(groupIndex * 7, groupIndex * 7 + 4) as skill}
-						<div class="skill">
-							<div class="skill-content">
-								<span class="skill-title">{skill.skill}</span>
-								<p class="skill-desc">{skill.description}</p>
-							</div>
-						</div>
-					{/each}
-				</div>
-				<!-- Second row of the group (3 skills) -->
-				{#if skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7).length > 0}
-					<div class="skills-row">
-						{#each skills.slice(groupIndex * 7 + 4, (groupIndex + 1) * 7) as skill}
-							<div class="skill">
-								<div class="skill-content">
-									<span class="skill-title">{skill.skill}</span>
-									<p class="skill-desc">{skill.description}</p>
-								</div>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			{/each}
-		{:else}
+		<div class="skills-grid">
 			{#each skills as skill}
-				<div class="skill" style="width: 80%; margin-bottom: 1rem;">
+				<div class="skill">
 					<div class="skill-content">
 						<span class="skill-title">{skill.skill}</span>
 						<p class="skill-desc">{skill.description}</p>
 					</div>
 				</div>
 			{/each}
-		{/if}
+		</div>
 		<button class="learn-more-btn" on:click={() => scrollToSection(2)}>
 			Experience
 			<span class="arrow">↓</span>
@@ -390,6 +363,30 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
+	}
+
+	.skills-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr); /* 4 columns */
+		row-gap: 1rem;
+		column-gap: 5rem;
+	}
+
+	.skill {
+		background: var(--skill-bg, #222);
+		padding: 1rem;
+		border-radius: 8px;
+	}
+
+	.skill-title {
+		font-weight: bold;
+		display: block;
+		margin-bottom: 0.3rem;
+	}
+
+	.skill-desc {
+		font-size: 0.9rem;
+		opacity: 0.8;
 	}
 
 	.band {

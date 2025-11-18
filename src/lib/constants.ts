@@ -69,6 +69,14 @@ export const skills = [
 	{
 		skill: 'Svelte',
 		description: 'Learned while building this very site.'
+	},
+	{
+		skill: 'Jira',
+		description: 'Used extensively in my last role for tracking tasks, managing sprints, and organizing workflows.'
+	},
+	{
+		skill: 'MUI',
+		description: 'Frequently used in my previous role to build clean, responsive UI components quickly.'
 	}
 ];
 
@@ -121,7 +129,7 @@ export const experience = [
 
 export const education = [
 	{
-		section: "Bachelor's degree",
+		section: "Bachelor's Degree",
 		major: ['Computer Science - Computer Networking Emphasis'],
 		school: ['Utah Valley University'],
 		graduated: [2021]
