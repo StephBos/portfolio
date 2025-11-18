@@ -1310,6 +1310,12 @@
 
 	/* Small-screen placement adjustments for Skills (stacking only) */
 	@media (max-width: 720px) {
+		.skills-grid {
+			grid-template-columns: 1fr; /* single column */
+			width: 90%;
+			max-width: 360px;
+		}
+
 		.skills-row {
 			flex-direction: column;
 			align-items: center;
@@ -1319,10 +1325,9 @@
 		.skill {
 			width: 90%;
 			max-width: 360px;
+			height: auto;
 		}
 
-		/* Make hero stack and headshot larger when the browser is narrowed below 720px
-	   (useful when testing by resizing desktop browser rather than emulation) */
 		.words-and-pic {
 			flex-direction: column !important;
 			align-items: center !important;
